@@ -2,6 +2,7 @@
 #define ENRUTADOR_H
 
 #include <map>
+#include <string>
 using namespace std;
 class enrutador{
     public:
@@ -10,7 +11,7 @@ class enrutador{
         char getName();
         map<char, int, less<char>> *getFila();
         void insertarFila(char _nodo, int valor = 0);
-        void imprimirFila();
+        string imprimirFila();
     private:
         map<char, int, less<char>> *fila;
 };

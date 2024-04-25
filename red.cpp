@@ -8,9 +8,16 @@ red::red(){
 void red::insertar(enrutador* router){
     enrutadores->insert(pair<char, enrutador*>(router->getName(), router));
     this -> setNodos(this->getNodos() + 1);
+    delete [] this -> getMatriz();
+    delete this -> getCaminos();
+    this -> setCaminos(new map<char,map<char, string>*, less<char>>);
+    this -> construirMatriz();
+    this->setStrNodos(this -> getStrNodos() + router->getName());
+    this -> calcularCaminos();
 }
 
 void red::eliminar(char _nombre){
+    string aux = "";
     for(auto itr = enrutadores->rbegin(); itr != enrutadores->rend(); ++itr){
         auto aux = ((*enrutadores)[itr ->first])->getFila();
         aux->erase(aux->find(_nombre));
@@ -18,21 +25,29 @@ void red::eliminar(char _nombre){
     enrutadores->erase(enrutadores->find(_nombre));
     this -> setNodos(this->getNodos() - 1);
     delete [] this -> getMatriz();
+    delete this -> getCaminos();
+    this -> setCaminos(new map<char,map<char, string>*, less<char>>);
     this -> construirMatriz();
-
+    for(int cont = 0; cont < this->getStrNodos().size(); cont++){
+        if(this->getStrNodos().at(cont) != _nombre) aux += this->getStrNodos().at(cont);
+    }
+    this->setStrNodos(aux);
+    this -> calcularCaminos();
 }
 
-void red::impEnrutadores(){
+string red::impEnrutadores(){
+    string aux = "";
     map<char,enrutador*>::iterator it;
 
-    cout << '\t';
-    for(it = enrutadores->begin();it != enrutadores->end();it++) cout << it->first << '\t';
-    cout << "\n\n";
+    aux += '\t';
+    for(it = enrutadores->begin();it != enrutadores->end();it++) aux += string(1,it->first) + "\t";
+    aux += "\n\n";
 
     for(it = enrutadores->begin();it != enrutadores->end();it++){
-        it->second-> imprimirFila();
-        cout << "\n\n";
+        aux += it->second-> imprimirFila();
+        aux += "\n\n";
     }
+    return aux;
 }
 
 map<char,enrutador*, less<char>> *red::getEnrutadores(){
@@ -158,7 +173,9 @@ void red::matrizAEnrut(){
 
 void red::calcularCaminos(){
     for(int cont = 0; cont < this->getNodos(); cont++){
-        dijkstra(cont, this->getNodos(), this->getMatriz(), this);
+        if(isConnected(this->getMatriz()[cont], this->getNodos())){
+            dijkstra(cont, this->getNodos(), this->getMatriz(), this);
+        }
     }
     this->matrizAEnrut();
 }

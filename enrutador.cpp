@@ -18,11 +18,12 @@ void enrutador::insertarFila(char _nodo, int valor){
     this->fila->insert(pair<char, int>(_nodo, valor));
 }
 
-void enrutador::imprimirFila()
+string enrutador::imprimirFila()
 {
+    string aux = "";
     map<char,int>::iterator it = this->fila->begin();
 
-    cout << this->nombre << '\t';
-    for(;it!=fila->end();it++) cout << it->second << '\t';
-
+    aux += string(1,this->nombre) + "\t";
+    for(;it!=fila->end();it++) aux += to_string(it->second) + "\t";
+    return aux;
 }

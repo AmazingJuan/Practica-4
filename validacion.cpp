@@ -11,5 +11,5 @@ bool validarNumero(string entrada){
     for(int cont = 0; cont < entrada.size(); cont++){
         if(numeros.find(entrada.at(cont)) >= numeros.size()) return false; //Para cada caracter de la entrada se verifica si pertenece al string de numeros, sino se devuelve falso.
     }
-    return stoi(entrada) > 0 ? true: false; //Se devuelve verdadero si la entrada es mayor que cero, de lo contrairo se devuelve falso.
+    return (stoi(entrada) > 0  && stoi(entrada) <= 100) || stoi(entrada) == 999 ? true: false; //Se devuelve verdadero si la entrada es mayor que cero, de lo contrairo se devuelve falso.
 }

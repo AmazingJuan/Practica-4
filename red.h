@@ -2,13 +2,14 @@
 #define RED_H
 #include "enrutador.h"
 #include <importaciones.h>
+#include <utilidades.h>
 #include <set>
 class red{
     public:
         red();
         void insertar(enrutador* router);
         void eliminar(char _nombre);
-        void impEnrutadores();
+        string impEnrutadores();
         void setupRed(string datos);
         void construirMatriz();
         void matrizAEnrut();
